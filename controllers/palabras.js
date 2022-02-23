@@ -4,7 +4,7 @@ const Palabra = require('../models/palabra');
 
 const palabrasGet = async(req, res = response) => { //Obtener palabras
 
-    const { limite = 5, desde = 0 } = req.query; //Parámetros opcionales que vienen en el url
+    const { limite, desde } = req.query; //Parámetros opcionales que vienen en el url
 
     const [ total, palabras ] = await Promise.all([
         Palabra.countDocuments(), //Contar total de palabras en la BD
