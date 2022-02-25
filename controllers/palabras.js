@@ -31,7 +31,7 @@ const palabrasPost = async(req, res = response) => { //Agregar palabra
     const existeConcepto = await Palabra.findOne({ concepto });
     if ( existeConcepto ) {
         return res.status(400).json({
-            msg: 'Este concepto ya está registrado.'
+            msg: `El concepto "${ existeConcepto.concepto }" ya está registrado.`
         })
     }
 
@@ -62,14 +62,6 @@ const palabrasPut = async(req, res = response) => { //Actualizar palabra
         })
     }
 
-    //Verificar si concepto existe por concepto
-    const existeConcepto = await Palabra.findOne({ concepto });
-    if ( existeConcepto ) {
-        return res.status(400).json({
-            msg: 'Este concepto ya está registrado.'
-        })
-    }
-
     const palabra = await Palabra.findByIdAndUpdate( id, todos );
 
     res.json({
@@ -96,7 +88,7 @@ const palabrasDelete = async(req, res = response) => { //Borrar palabra
 
     res.json({
 
-        msg: 'petición delete desde el controlador',
+        msg: `El concepto "${ conceptoEliminado.concepto }" eliminado correctamente.`,
         id,
         conceptoEliminado
     })
