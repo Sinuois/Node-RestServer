@@ -22,6 +22,24 @@ const palabrasGet = async(req, res = response) => { //Obtener palabras
     });
 }
 
+const palabraGet = async(req, res = response) => { //Verificar palabra
+    const { id } = req.params;
+    //Verificar si concepto existe por id
+    const existeId = await Palabra.findById(id);
+    if ( existeId ) {
+        const significado = existeId.significado;
+        return res.status(200).json({
+            msg: 'El id sí existe',
+            significado
+        })
+    } else {
+        return res.status(400).json({
+            msg: 'El id no existe',
+
+        })
+    }
+}
+
 const palabrasPost = async(req, res = response) => { //Agregar palabra
 
     const { concepto, significado } = req.body;
@@ -48,9 +66,8 @@ const palabrasPost = async(req, res = response) => { //Agregar palabra
 const palabrasPut = async(req, res = response) => { //Actualizar palabra
 
     const { id } = req.params;
-    const { concepto, significado, ...todos } = req.body;
+    const { significado, ...todos } = req.body;
 
-    if ( concepto ) todos.concepto = concepto;
     if ( significado ) todos.significado = significado;
 
     //Verificar si concepto existe por id
@@ -65,9 +82,7 @@ const palabrasPut = async(req, res = response) => { //Actualizar palabra
     const palabra = await Palabra.findByIdAndUpdate( id, todos );
 
     res.json({
-        msg: 'Concepto correctamente actualizado',
-        concepto,
-        significado
+        msg: 'Concepto correctamente actualizado'
     })
 }
 
@@ -96,6 +111,7 @@ const palabrasDelete = async(req, res = response) => { //Borrar palabra
 
 module.exports = {
     palabrasGet,
+    palabraGet,
     palabrasPost,
     palabrasPut,
     palabrasDelete
